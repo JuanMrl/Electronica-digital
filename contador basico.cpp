@@ -1,3 +1,4 @@
+// Juan Morales 
 #include <stdint.h>
 #include <stdio.h>
 #include <windows.h> // Para usleep (reemplazo de delay)
