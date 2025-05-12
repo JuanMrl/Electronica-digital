@@ -1,15 +1,10 @@
 // C++ code
 //  LAB Electronica Digital II
 //  Juan Morales
-#include <stdint.h>
-#include <stdio.h>
-#include <windows.h> 
-
-//Etiquetas
-//--Inputs
+// Definiciones de pines
 #define LDR_pin A0
 
-//--Outputs
+// Pines de los LEDs
 #define led1 2
 #define led2 3
 #define led3 4
@@ -18,138 +13,76 @@
 #define led6 7
 #define led7 8
 #define led8 9
-#define INPUT 0
-#define OUTPUT 1
 
-#define TIME 10
+// Variable para la lectura del LDR
+int LDR_read = 0;
 
-//--Variables
-byte estado = 0;
-int  LDR_read = 0;
-
-void setup()
-{
-  //--Inputs
-  pinMode(LDR_pin,INPUT);
+void setup() {
+  // Configurar el pin del LDR como entrada
+  pinMode(LDR_pin, INPUT);
   
-  //--Outputs
-  pinMode(led1,OUTPUT);
-  pinMode(led2,OUTPUT);
-  pinMode(led3,OUTPUT);
-  pinMode(led4,OUTPUT);
-  pinMode(led5,OUTPUT);
-  pinMode(led6,OUTPUT);
-  pinMode(led7,OUTPUT);
-  pinMode(led8,OUTPUT);
+  // Configurar los pines de los LEDs como salidas
+  pinMode(led1, OUTPUT);
+  pinMode(led2, OUTPUT);
+  pinMode(led3, OUTPUT);
+  pinMode(led4, OUTPUT);
+  pinMode(led5, OUTPUT);
+  pinMode(led6, OUTPUT);
+  pinMode(led7, OUTPUT);
+  pinMode(led8, OUTPUT);
 
+  // Iniciar comunicación serial (para depuración)
   Serial.begin(9600); 
 }
 
-
-
-
-void loop()
-{ 
+void loop() {
+  // Leer el valor del LDR (rango: 0-1023)
   LDR_read = analogRead(LDR_pin);
-    Serial.println(LDR_read);
-    TIME;
-  if (LDR_read >= 0  && LDR_read <= 114)
-  {
-    digitalWrite(led1,LOW); //0
-    digitalWrite(led2,LOW);
-    digitalWrite(led3,LOW);
-    digitalWrite(led4,LOW);
-    digitalWrite(led5,LOW);
-    digitalWrite(led6,LOW);
-    digitalWrite(led7,LOW);
-    digitalWrite(led8,LOW);
+  Serial.println(LDR_read); // Opcional: ver el valor en el Monitor Serial
+
+  // Encender LEDs según la intensidad de luz
+  if (LDR_read <= 114) {
+    apagarTodosLosLEDs();
+  } 
+  else if (LDR_read <= 227) {
+    encenderHasta(1);
+  } 
+  else if (LDR_read <= 341) {
+    encenderHasta(2);
+  } 
+  else if (LDR_read <= 455) {
+    encenderHasta(3);
+  } 
+  else if (LDR_read <= 568) {
+    encenderHasta(4);
+  } 
+  else if (LDR_read <= 682) {
+    encenderHasta(5);
+  } 
+  else if (LDR_read <= 796) {
+    encenderHasta(6);
+  } 
+  else if (LDR_read <= 909) {
+    encenderHasta(7);
+  } 
+  else {
+    encenderHasta(8); // Todos los LEDs encendidos
   }
-  else if (LDR_read >= 115  && LDR_read <= 227)
-  {
-    digitalWrite(led1,HIGH); //1
-    digitalWrite(led2,LOW);
-    digitalWrite(led3,LOW);
-    digitalWrite(led4,LOW);
-    digitalWrite(led5,LOW);
-    digitalWrite(led6,LOW);
-    digitalWrite(led7,LOW);
-    digitalWrite(led8,LOW);
+
+  delay(100); // Pequeña pausa para evitar fluctuaciones
+}
+
+// Función auxiliar para apagar todos los LEDs
+void apagarTodosLosLEDs() {
+  for (int i = led1; i <= led8; i++) {
+    digitalWrite(i, LOW);
   }
-  else if (LDR_read >= 228  && LDR_read <= 341)
-  {
-    digitalWrite(led1,HIGH); //2
-    digitalWrite(led2,HIGH);
-    digitalWrite(led3,LOW);
-    digitalWrite(led4,LOW);
-    digitalWrite(led5,LOW);
-    digitalWrite(led6,LOW);
-    digitalWrite(led7,LOW);
-    digitalWrite(led8,LOW);
-  }
-  else if (LDR_read >= 342  && LDR_read <= 455)
-  {
-    digitalWrite(led1,HIGH); //3
-    digitalWrite(led2,HIGH);
-    digitalWrite(led3,HIGH);
-    digitalWrite(led4,LOW);
-    digitalWrite(led5,LOW);
-    digitalWrite(led6,LOW);
-    digitalWrite(led7,LOW);
-    digitalWrite(led8,LOW);
-  }
-  else if (LDR_read >= 456  && LDR_read <= 568)
-  {
-    digitalWrite(led1,HIGH); //4
-    digitalWrite(led2,HIGH);
-    digitalWrite(led3,HIGH);
-    digitalWrite(led4,HIGH);
-    digitalWrite(led5,LOW);
-    digitalWrite(led6,LOW);
-    digitalWrite(led7,LOW);
-    digitalWrite(led8,LOW);
-  }
-  else if (LDR_read >= 569  && LDR_read <= 682)
-  {
-    digitalWrite(led1,HIGH); //5
-    digitalWrite(led2,HIGH);
-    digitalWrite(led3,HIGH);
-    digitalWrite(led4,HIGH);
-    digitalWrite(led5,HIGH);
-    digitalWrite(led6,LOW);
-    digitalWrite(led7,LOW);
-    digitalWrite(led8,LOW);
-  }
-  else if (LDR_read >= 683  && LDR_read <= 796)
-  {
-    digitalWrite(led1,HIGH); //6
-    digitalWrite(led2,HIGH);
-    digitalWrite(led3,HIGH);
-    digitalWrite(led4,HIGH);
-    digitalWrite(led5,HIGH);
-    digitalWrite(led6,HIGH);
-    digitalWrite(led7,LOW);
-    digitalWrite(led8,LOW);
-  }
-  else if (LDR_read >= 797  && LDR_read <= 909)
-  {
-    digitalWrite(led1,HIGH); //7
-    digitalWrite(led2,HIGH);
-    digitalWrite(led3,HIGH);
-    digitalWrite(led4,HIGH);
-    digitalWrite(led5,HIGH);
-    digitalWrite(led6,HIGH);
-    digitalWrite(led7,HIGH);
-    digitalWrite(led8,LOW);
-  }
-  else if (LDR_read >= 910  && LDR_read <= 1023)
-  {
-    digitalWrite(led1,HIGH); //8
-    digitalWrite(led2,HIGH);
-    digitalWrite(led3,HIGH);
-    digitalWrite(led4,HIGH);
-    digitalWrite(led5,HIGH);
-    digitalWrite(led6,HIGH);
-    digitalWrite(led7,HIGH);
-    digitalWrite(led8,HIGH);
+}
+
+// Función auxiliar para encender LEDs hasta cierto número
+void encenderHasta(int cantidad) {
+  apagarTodosLosLEDs(); // Primero apagar todos
+  for (int i = 0; i < cantidad; i++) {
+    digitalWrite(led1 + i, HIGH);
   }
 }
